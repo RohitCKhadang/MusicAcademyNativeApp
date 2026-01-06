@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Text, TextInput } from "react-native-paper";
-import { loginApi } from "../services/authService";
+import { loginApi } from "../services/service";
 import { useAuthStore } from "../store/authStore";
 
 export default function Login() {
@@ -11,23 +11,38 @@ export default function Login() {
 
   const login = useAuthStore((s) => s.login);
 
-  const handleLogin = async () => {
-    const res = await loginApi(loginId, password);
+  //   const handleLogin = async () => {
+  //     const res:any = await loginApi(loginId, password:string);
 
-    if (!res.success || !res.token || !res.role || !res.userId) {
-      alert("Invalid credentials");
-      return;
+  //     if (!res.success || !res.token || !res.role || !res.userId) {
+  //       alert("Invalid credentials");
+  //       return;
+  //     }
+
+  //     login(res.token, res.role, res.userId);
+
+  //     router.replace(
+  //   res.role === "admin"
+  //     ? "/admin/dashboard"
+  //     : "/student/dashboard"
+  // );
+  //   };
+
+  const loginauth = async () => {
+    const postData = {
+      emailId: loginId,
+      password: password,
+    };
+
+    try {
+      const response: any = await loginApi(postData);
+      alert("Login Successful");
+      router.replace("/admin/dashboard");
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    } finally {
     }
-
-    login(res.token, res.role, res.userId);
-
-    router.replace(
-  res.role === "admin"
-    ? "/admin/dashboard"
-    : "/student/dashboard"
-);
-
-     
   };
 
   return (
@@ -53,7 +68,7 @@ export default function Login() {
         style={styles.input}
       />
 
-      <Button mode="contained" onPress={handleLogin}>
+      <Button mode="contained" onPress={loginauth}>
         Login
       </Button>
     </View>
