@@ -33,7 +33,7 @@ export default function AdminLayout() {
       <Tabs.Screen
         name="students"
         options={{
-          title: "Students",
+          title: "Users",
           tabBarIcon: ({ color }) => (
             <Ionicons name="people" size={20} color={color} />
           ),

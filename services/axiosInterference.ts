@@ -41,6 +41,7 @@ axiosAuthInstance.interceptors.request.use((config:any) => {
   
   return config;
 }, error => {
+  
   return Promise.reject(error);
 });
 export { axiosAuthInstance, axiosInstance };

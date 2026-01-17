@@ -18,3 +18,9 @@
 
  - Step 5: Build APK
  - npx eas build -p android --profile preview
+
+
+ # package 
+  * npm install formik
+  * npm install @react-native-picker/picker
+   * npm install @react-native-community/datetimepicker

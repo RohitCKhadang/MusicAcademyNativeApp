@@ -29,6 +29,7 @@ export default function Login() {
   //   };
 
   const loginauth = async () => {
+
     const postData = {
       emailId: loginId,
       password: password,
@@ -40,8 +41,10 @@ export default function Login() {
       router.replace("/admin/dashboard");
       return response.data;
     } catch (error) {
+      
       console.error(error);
     } finally {
+      alert("Login button pressed");
     }
   };
 
