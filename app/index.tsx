@@ -8,43 +8,28 @@ import { useAuthStore } from "../store/authStore";
 export default function Login() {
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const login = useAuthStore((s) => s.login);
 
-  //   const handleLogin = async () => {
-  //     const res:any = await loginApi(loginId, password:string);
-
-  //     if (!res.success || !res.token || !res.role || !res.userId) {
-  //       alert("Invalid credentials");
-  //       return;
-  //     }
-
-  //     login(res.token, res.role, res.userId);
-
-  //     router.replace(
-  //   res.role === "admin"
-  //     ? "/admin/dashboard"
-  //     : "/student/dashboard"
-  // );
-  //   };
-
   const loginauth = async () => {
+    // Prevent multiple button presses while loading
+    if (loading) return;
 
     const postData = {
       emailId: loginId,
       password: password,
     };
-
+    setLoading(true);
     try {
       const response: any = await loginApi(postData);
       alert("Login Successful");
       router.replace("/admin/dashboard");
       return response.data;
     } catch (error) {
-      
       console.error(error);
+      alert("Login Failed");
     } finally {
-      alert("Login button pressed");
+      setLoading(false);
     }
   };
 
@@ -71,8 +56,15 @@ export default function Login() {
         style={styles.input}
       />
 
-      <Button mode="contained" onPress={loginauth}>
-        Login
+      <Button
+        mode="contained"
+        onPress={loginauth}
+        disabled={loading}
+        buttonColor={loading ? "#cccccc" : "#007bff"}
+        textColor={loading ? "#666666" : "#ffffff"}
+        style={{ opacity: loading ? 0.6 : 1 }}
+      >
+        {loading ? "Logging in..." : "Login"}
       </Button>
     </View>
   );
